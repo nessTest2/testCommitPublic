@@ -1,0 +1,12 @@
+# Movies Database Application - Python Requirements
+# Migrated from Java Swing + Oracle to Python PyQt6 + SQLAlchemy
+
+# GUI Framework
+PyQt6>=6.6.0
+
+# Database
+SQLAlchemy>=2.0.0
+alembic>=1.13.0
+
+# Utilities
+python-dateutil>=2.8.2

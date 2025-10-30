@@ -1,0 +1,12 @@
+{
+  "job_id": "job_mod_cmh9bivk6000nl701795grnkc_1761580462",
+  "translation_id": "cmh9bivk6000nl701795grnkc",
+  "original_repo": "https://github.com/vinders/prog_movies_database_2015",
+  "target_language": "Python",
+  "session_id": "6e87b623-2099-47f6-a8c3-243e89af471e",
+  "files_generated": 32,
+  "completion_time": "2025-10-27T16:30:47.942062",
+  "storage_type": "efs",
+  "efs_path": "/data/modernized/cmh9bivk6000nl701795grnkc",
+  "efs_full_path": "/data/modernized/cmh9bivk6000nl701795grnkc"
+}
