@@ -1,0 +1,132 @@
+<!-- Movie Details Page -->
+<!-- @SOURCE: movies_gui_app/src/sgbdrennequinepolis/DialogMovie.java::public DialogMovie::} -->
+<h1><%= movie.title %></h1>
+
+<div class="movie-details">
+    <div class="movie-info">
+        <div>
+            <% if !isnothing(movie.poster_path) %>
+                <img src="https://image.tmdb.org/t/p/w200<%= movie.poster_path %>"
+                     alt="<%= movie.title %>" class="movie-poster">
+            <% else %>
+                <div style="width:200px; height:300px; background:#ddd; display:flex; align-items:center; justify-content:center;">
+                    No Poster
+                </div>
+            <% end %>
+        </div>
+
+        <div>
+            <div class="info-section">
+                <span class="info-label">Original Title:</span> <%= movie.title_orig %>
+            </div>
+
+            <div class="info-section">
+                <span class="info-label">Release Year:</span>
+                <%= isnothing(movie.release_date) ? "Unknown" : string(movie.release_date) %>
+            </div>
+
+            <div class="info-section">
+                <span class="info-label">Status:</span>
+                <%= isnothing(movie.status) ? "Unknown" : movie.status %>
+            </div>
+
+            <div class="info-section">
+                <span class="info-label">Runtime:</span>
+                <%= isnothing(movie.runtime) ? "Unknown" : string(movie.runtime) * " minutes" %>
+            </div>
+
+            <div class="info-section">
+                <span class="info-label">Certification:</span>
+                <%= isnothing(movie.certification) ? "Not Rated" : movie.certification %>
+            </div>
+
+            <div class="info-section">
+                <span class="info-label">TMDB Rating:</span>
+                <span class="rating">
+                    <%= isnothing(movie.vote_average_tmdb) ? "N/A" : string(movie.vote_average_tmdb) * "/10" %>
+                </span>
+                (<%= isnothing(movie.vote_count_tmdb) ? "0" : string(movie.vote_count_tmdb) %> votes)
+            </div>
+
+            <div class="info-section">
+                <span class="info-label">App Rating:</span>
+                <span class="rating">
+                    <%= isnothing(movie.vote_average_app) ? "N/A" : string(round(movie.vote_average_app, digits=1)) * "/10" %>
+                </span>
+                (<%= string(movie.vote_count_app) %> votes)
+            </div>
+
+            <% if !isnothing(movie.budget) && movie.budget > 0 %>
+                <div class="info-section">
+                    <span class="info-label">Budget:</span> $<%= format_number(movie.budget) %>
+                </div>
+            <% end %>
+
+            <% if !isnothing(movie.revenue) && movie.revenue > 0 %>
+                <div class="info-section">
+                    <span class="info-label">Revenue:</span> $<%= format_number(movie.revenue) %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+
+    <% if !isempty(movie.genres) %>
+        <div class="info-section">
+            <span class="info-label">Genres:</span> <%= join(movie.genres, ", ") %>
+        </div>
+    <% end %>
+
+    <% if !isempty(movie.directors) %>
+        <div class="info-section">
+            <span class="info-label">Director(s):</span> <%= join(movie.directors, ", ") %>
+        </div>
+    <% end %>
+
+    <% if !isempty(movie.actors) %>
+        <div class="info-section">
+            <span class="info-label">Cast:</span>
+            <ul style="list-style: none; padding-left: 0;">
+                <% for (i, actor) in enumerate(movie.actors) %>
+                    <li><%= actor %> as <%= movie.characters[i] %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <% if !isempty(movie.prod_comps) %>
+        <div class="info-section">
+            <span class="info-label">Production Companies:</span> <%= join(movie.prod_comps, ", ") %>
+        </div>
+    <% end %>
+
+    <% if !isempty(movie.countries) %>
+        <div class="info-section">
+            <span class="info-label">Countries:</span> <%= join(movie.countries, ", ") %>
+        </div>
+    <% end %>
+
+    <% if !isempty(movie.languages) %>
+        <div class="info-section">
+            <span class="info-label">Languages:</span> <%= join(movie.languages, ", ") %>
+        </div>
+    <% end %>
+
+    <% if !isnothing(movie.overview) %>
+        <div class="info-section">
+            <span class="info-label">Overview:</span>
+            <p><%= movie.overview %></p>
+        </div>
+    <% end %>
+</div>
+
+<div class="nav-links">
+    <a href="/movies/<%= movie.id_movie %>/reviews/write">Write a Review</a>
+    <a href="/movies/<%= movie.id_movie %>/reviews">View Reviews</a>
+    <a href="/">Back to Search</a>
+</div>
+
+<%
+function format_number(num)
+    return replace(string(num), r"(?<=[0-9])(?=(?:[0-9]{3})+(?![0-9]))" => ",")
+end
+%>

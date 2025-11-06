@@ -1,0 +1,154 @@
+<!-- Movies Search Page -->
+<!-- @SOURCE: movies_gui_app/src/sgbdrennequinepolis/Rennequinepolis.form::private void jBtnSearchActionPerformed::} -->
+<h1>Search for a Movie</h1>
+
+<div class="error" id="errorMsg" style="display:none;"></div>
+
+<form id="searchForm" onsubmit="performSearch(event)">
+    <div class="form-group">
+        <label>
+            <input type="radio" name="searchType" value="id" checked> Search by ID
+        </label>
+        <label>
+            <input type="radio" name="searchType" value="criteria"> Search by Criteria
+        </label>
+    </div>
+
+    <div id="idSearch">
+        <div class="form-group">
+            <label for="movieId">Movie ID:</label>
+            <input type="number" id="movieId" name="movieId" min="0">
+        </div>
+    </div>
+
+    <div id="criteriaSearch" style="display:none;">
+        <div class="form-group">
+            <label for="title">Title (partial match):</label>
+            <input type="text" id="title" name="title">
+        </div>
+
+        <div class="form-group">
+            <label for="year">Exact Year:</label>
+            <input type="number" id="year" name="year" min="1900" max="2100">
+            <label>
+                <input type="checkbox" id="useYear"> Use exact year
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="yearMin">Year Range:</label>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <label><input type="checkbox" id="useYearMin"> After</label>
+                <input type="number" id="yearMin" name="yearMin" min="1900" max="2100" style="width:100px;">
+                <label><input type="checkbox" id="useYearMax"> Before</label>
+                <input type="number" id="yearMax" name="yearMax" min="1900" max="2100" style="width:100px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="actors">Actors (comma-separated):</label>
+            <input type="text" id="actors" name="actors" placeholder="e.g., Keanu Reeves, Carrie-Anne Moss">
+        </div>
+
+        <div class="form-group">
+            <label for="directors">Directors (comma-separated):</label>
+            <input type="text" id="directors" name="directors" placeholder="e.g., Wachowski">
+        </div>
+    </div>
+
+    <button type="submit">Search</button>
+</form>
+
+<div id="results" style="margin-top: 30px; display: none;">
+    <h2>Search Results</h2>
+    <ul id="resultsList" class="results-list"></ul>
+</div>
+
+<script>
+// Toggle search modes
+document.querySelectorAll('input[name="searchType"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        document.getElementById('idSearch').style.display = this.value === 'id' ? 'block' : 'none';
+        document.getElementById('criteriaSearch').style.display = this.value === 'criteria' ? 'block' : 'none';
+    });
+});
+
+// Perform search
+async function performSearch(event) {
+    event.preventDefault();
+
+    const searchType = document.querySelector('input[name="searchType"]:checked').value;
+    const errorMsg = document.getElementById('errorMsg');
+    errorMsg.style.display = 'none';
+
+    try {
+        if (searchType === 'id') {
+            // Search by ID
+            const movieId = document.getElementById('movieId').value;
+            if (!movieId) {
+                errorMsg.textContent = 'Please enter a movie ID';
+                errorMsg.style.display = 'block';
+                return;
+            }
+            window.location.href = `/movies/${movieId}`;
+        } else {
+            // Search by criteria
+            const formData = new FormData();
+            formData.append('title', document.getElementById('title').value);
+
+            if (document.getElementById('useYear').checked) {
+                formData.append('year', document.getElementById('year').value);
+            } else {
+                if (document.getElementById('useYearMin').checked) {
+                    formData.append('year_min', document.getElementById('yearMin').value);
+                }
+                if (document.getElementById('useYearMax').checked) {
+                    formData.append('year_max', document.getElementById('yearMax').value);
+                }
+            }
+
+            formData.append('actors', document.getElementById('actors').value);
+            formData.append('directors', document.getElementById('directors').value);
+
+            const response = await fetch('/movies/search', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                displayResults(data.results);
+            } else {
+                errorMsg.textContent = data.error || 'Search failed';
+                errorMsg.style.display = 'block';
+            }
+        }
+    } catch (error) {
+        errorMsg.textContent = 'An error occurred: ' + error.message;
+        errorMsg.style.display = 'block';
+    }
+}
+
+// Display search results
+function displayResults(results) {
+    const resultsList = document.getElementById('resultsList');
+    const resultsDiv = document.getElementById('results');
+
+    resultsList.innerHTML = '';
+
+    if (results.length === 0) {
+        resultsList.innerHTML = '<li>No movies found matching your criteria...</li>';
+    } else {
+        results.forEach(movie => {
+            const li = document.createElement('li');
+            const title = movie.year ? `${movie.title} (${movie.year})` : movie.title;
+            li.textContent = title;
+            li.onclick = () => window.location.href = `/movies/${movie.id_movie}`;
+            resultsList.appendChild(li);
+        });
+    }
+
+    resultsDiv.style.display = 'block';
+}
+</script>

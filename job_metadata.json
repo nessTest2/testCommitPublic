@@ -1,0 +1,12 @@
+{
+  "job_id": "job_mod_cmhgle8uh0005lc011lw8s2o3_1762020305",
+  "translation_id": "cmhgle8uh0005lc011lw8s2o3",
+  "original_repo": "https://github.com/vinders/prog_movies_database_2015",
+  "target_language": "Julia",
+  "session_id": "de60297c-7fc1-4ed6-90d4-22c52cf1e839",
+  "files_generated": 30,
+  "completion_time": "2025-11-01T18:37:55.405039",
+  "storage_type": "efs",
+  "efs_path": "/data/modernized/cmhgle8uh0005lc011lw8s2o3",
+  "efs_full_path": "/data/modernized/cmhgle8uh0005lc011lw8s2o3"
+}

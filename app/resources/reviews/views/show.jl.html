@@ -1,0 +1,49 @@
+<!-- Show Reviews Page -->
+<!-- @SOURCE: movies_gui_app/src/sgbdrennequinepolis/DialogShowVotes.java::public DialogShowVotes::} -->
+<h1>Reviews for <%= movie.title %></h1>
+
+<% if isempty(reviews) %>
+    <p>No reviews yet for this movie. Be the first to write one!</p>
+<% else %>
+    <div class="reviews-list">
+        <% for review in reviews %>
+            <div class="review-item" style="border-bottom: 1px solid #eee; padding: 15px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <strong><%= review.login %></strong>
+                    <span class="rating" style="font-size: 16px;">★ <%= review.rating %>/10</span>
+                </div>
+                <div style="color: #666; font-size: 12px; margin-bottom: 10px;">
+                    <%= Dates.format(review.review_date, "yyyy-mm-dd HH:MM") %>
+                </div>
+                <% if !isnothing(review.review) %>
+                    <div style="margin-top: 10px;">
+                        <%= review.review %>
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+
+    <!-- Pagination -->
+    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+        <% if page > 1 %>
+            <button onclick="window.location.href='/movies/<%= movie.id_movie %>/reviews?page=<%= page - 1 %>'">
+                Previous Page
+            </button>
+        <% end %>
+
+        <span style="padding: 10px;">Page <%= page %></span>
+
+        <% if length(reviews) == 5 %>
+            <button onclick="window.location.href='/movies/<%= movie.id_movie %>/reviews?page=<%= page + 1 %>'">
+                Next Page
+            </button>
+        <% end %>
+    </div>
+<% end %>
+
+<div class="nav-links">
+    <a href="/movies/<%= movie.id_movie %>/reviews/write">Write a Review</a>
+    <a href="/movies/<%= movie.id_movie %>">Back to Movie Details</a>
+    <a href="/">Back to Search</a>
+</div>

@@ -1,0 +1,23 @@
+# Database Configuration
+# Migrated from: nbproject/project.properties
+
+# Primary Database (equivalent to CB in original)
+primary:
+  host: localhost
+  port: 5432
+  database: movies_db
+  user: movies_user
+  password: movies_pass
+
+# Backup Database (equivalent to CBB in original)
+backup:
+  host: localhost
+  port: 5433
+  database: movies_db_backup
+  user: movies_user
+  password: movies_pass
+
+# Connection pool settings
+pool:
+  max_connections: 10
+  timeout: 30
