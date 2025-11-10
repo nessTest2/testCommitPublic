@@ -1,0 +1,13 @@
+# @SOURCE: main.java::import java.sql.*;::import java.time.LocalDateTime;
+# Python Dependencies for E-commerce Application
+# Migrated from Java (MySQL JDBC driver)
+
+# Database connectivity - equivalent to MySQL JDBC Driver
+pymysql>=1.1.0
+
+# Environment variable management
+python-dotenv>=1.0.0
+
+# Development and testing dependencies
+pytest>=7.4.0
+pytest-cov>=4.1.0

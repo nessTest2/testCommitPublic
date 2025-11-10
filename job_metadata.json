@@ -1,0 +1,12 @@
+{
+  "job_id": "job_mod_cmhow1r9d000kig01psrcka0t_1762521928",
+  "translation_id": "cmhow1r9d000kig01psrcka0t",
+  "original_repo": "https://github.com/nessTest2/privateJava",
+  "target_language": "Python",
+  "session_id": "356b8c67-87ae-4c1c-a6b9-fb5f1f80d063",
+  "files_generated": 34,
+  "completion_time": "2025-11-07T13:50:17.031309",
+  "storage_type": "efs",
+  "efs_path": "/data/modernized/cmhow1r9d000kig01psrcka0t",
+  "efs_full_path": "/data/modernized/cmhow1r9d000kig01psrcka0t"
+}
